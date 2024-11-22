@@ -8,9 +8,20 @@
 
 
 ### Table of contents:
-  * [Tasks](#tasks)
-    + [Data download and preprocessing](#data-download-and-preprocessing)
-    + 
+  * [Project steps](#project-steps)
+    + [Data download](#data-download)
+    + [CIRNet training with the original data](#cirnet-training-with-the-original-data)
+       - [Data preprocessing](#data-preprocessing)
+       - [CIRNet training](#cirnet-training)
+    + [CIRNet evaluation with the original data](#cirnet-evaluation-with-the-original-data)
+       - [Data preprocessing](#data-preprocessing)
+       - [I TASK](#i-task)
+       - [II TASK](#ii-task)
+    + [Effect of new hydropathy scales](#effect-of-new-hydropathy-scales)
+       - [III TASK](#iii-task)
+       - [IV TASK](#iv-task)
+       - [V TASK](#v-task)
+       - [VI TASK](#vi-task)
   * [Bibliography](#bibliography)
 
     
@@ -24,7 +35,7 @@ prediction of molecular properties.
 In this context, we recently developed the Core Interacting Residues Network (CIRNet). CIRNet classifies pairs of amino acids as interacting residues at the core of the interfaces or 
 non-interacting residues with an accuracy of approximately 0.82 on a balanced dataset [1].
 The protocol is based on a compact representation of regions on the protein’s molecular and electrostatic potential surfaces through the Zernike 2D polynomials expansion, that allows 
-for a rapid evaluation of shape [2] and electrostatic complementarity [3]. Additionally, the method incorporates a rapid hydropathy complementarity evaluation [4]
+for a rapid evaluation of shape [2] and electrostatic complementarity [3]. Additionally, the method incorporates a rapid hydropathy complementarity evaluation [4].
 Figure 1 shows CIRNet architecture.
 
 <img src="https://github.com/gretagrassmann/The-role-of-hydropathy-in-the-prediction-of-core-interacting-residues/blob/main/Figures/Figure1.png" width="700">
@@ -33,9 +44,68 @@ Figure 1 shows CIRNet architecture.
 In this project you will use CIRNet to identify core interacting residues from a dataset of 905 protein dimers and analyse how different hydropathy scale influence its performance.
 
 
-## Tasks
+## Project steps
 
-### Data download and preprocessing
+### Data download
+Download the directories from Github:
+* CODES: all the starting python codes.
+ ```
+CODES
+ ├── data_prep.py -> 
+ ├── data_prep.py ->
+ └── data_prep.py ->
+```
+* DATASET: training and testing data.
+* HYDROPATHY: Original and new hydropathy scales
+
+
+### CIRNet training with the original data
+Train CIRNet on the provided dataset using the L_hydrophobicity_scale.
+#### Data preprocessing
+Starting from the results.csv file, produce the input for CIRNet using the data_prep.py code.
+CIRNet receives as input, for each residue pair, a 10x4 matrix that represents the normalized complementarity of the shape, electrostatic, and hydropathy complementarity between the first residue and the second amino acid, as well as between the first residue and the first nine nieghbors of the second one. Figure out what each column in results.csv represents.
+#### CIRNet training           
+Use cnn.py to train CIRNet on the original dataset. Save the trained network.
+
+### CIRNet evaluation with the original data
+Evaluate CIRNet performance on the ‘Test dataset’ (905 complexes) using the L_hydrophobicity_scale.
+#### Data preprocessing
+Starting from the test_results.csv file, produce the input for CIRNet using the data_prep.py code.
+           
+#### I TASK
+Plot the distributions of the NN prediction for true interacting and non interacting residues. 
+Find the optimal threshold for the NN classification starting from these distributions.
+           
+#### II TASK
+How does the accuracy on the ‘Test dataset’ vary for different residues pairs type? </div>
+Residue can be classified according to their chemical nature in Polar (P), Hydrophobic (H), and Charged (C). The chemical composition of the interfaces is reflected in the hydropathy complementarity values between core interacting residue pairs (PP, HH, CC, PH, PC, HC). 
+
+> :wink: **Tip**: To evaluate the accuracy you can compute the ROC AUC between the distributions of true and false cases.
+
+### Effect of new hydropathy scales
+Study the effect of each one of the new hydropathy scales downloaded from Github. 
+
+#### III TASK
+For each scale:
+1. Define an appropriate hydropaty complementarity formula.
+> :wink: **Tip**: Remember that residues with similar hydropathy values (both high or low) have stronger interactions compared to those between residues with opposing hydropathy characteristics.
+2. Modify data_prep.py to obtain a new hr.txt file with new indices of hydropathy complementarity.
+3. Train CIRNet on the provided dataset using the new hydropathy values and test it on the ‘Test dataset’.
+
+#### IV TASK
+Starting from the saved NN for each scale:
+1. Plot the distributions of the NN prediction for true interacting and non interacting residues. Find the optimal threshold for the NN classification starting from these distributions.
+2. How does the accuracy on the ‘Test dataset’ vary for different residues pairs type?
+
+#### V TASK
+Compare the results obtained for all the proposed hydropathy scales.
+Look not only at the precision in the classification but also on the interplay between the different features (shape, electrostatic, and hydropathy complementarity).
+
+> :wink: **Tip**: There are many libraries on Python to analyze the information space learned by a NN, such as PCA and MI score.
+
+#### VI TASK
+Try to improve the accuracy of CIRNet. You can either modify the NN structure or add more specific thresholds to the NN prediction.
+
 
 
 ## Bibliography
