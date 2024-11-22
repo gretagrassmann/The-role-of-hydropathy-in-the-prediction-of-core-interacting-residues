@@ -58,11 +58,11 @@ codes
 dataset
  ├── train
        ├── classification.txt -> True classification of the residue pair as core interacting (1) or not (0)
-       ├── dataset.txt -> True classification, name of the complex, residue on the first protein (A_n), residue on the second protein (B_n)
-       ├── shape.txt -> Shape complementarity between A_n and B_n and between A_n and the nine neighbors of B_n (B_n,B_n_1,...,B_n_10)
-       ├── el.txt -> Electrostatic complementarity between A_n and B_n and between A_n and the nine neighbors of B_n
-       ├── hr.txt ->  Hydropathy complementarity (defined according to the L_hydrophobicity_scale)  between A_n and B_n and between A_n and the nine neighbors of B_n
-       └── dist.txt -> Distance of B_n,B_n_1,...,B_n_10 from B_n
+       ├── dataset.txt -> True classification, name of the complex, residue on the first protein (resA), residue on the second protein (resB) and its nine neighbors (resB_1,..resB_9)
+       ├── shape.txt -> Shape complementarity between resA and resB and between resA and the nine neighbors of resB
+       ├── el.txt -> Electrostatic complementarity between resA and resB and between resA and the nine neighbors of resB
+       ├── hr.txt ->  Hydropathy complementarity (defined according to the L_hydrophobicity_scale)  between resA and resB and between resA and the nine neighbors of resB
+       └── dist.txt -> Distance of resB_1,...,resB_9 from resB
  └── test
        ├── classification.txt 
        ├── dataset.txt
@@ -130,7 +130,7 @@ For each scale:
 1. Starting from the L_hydrophobicity_scale, hydropathy complementarity can be defined as in the Figure:
 <img src="https://github.com/gretagrassmann/The-role-of-hydropathy-in-the-prediction-of-core-interacting-residues/blob/main/Figures/Figure2.png" width="700">
 
-Define an appropriate hydropaty complementarity formula for the other hydropathy scales.
+Define an appropriate hydropathy complementarity formula for the other hydropathy scales.
 > :wink: **Tip**: Residues with similar hydropathy values (both high or low) have stronger interactions compared to those between residues with opposing hydropathy characteristics.
 
 2. Write new hr.txt files using these new values. Use the residues names contained in the dataset.txt file.
