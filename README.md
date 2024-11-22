@@ -76,7 +76,12 @@ dataset
 **HYDROPATHY**: Original and new hydropathy scales
 ```
 hydropathy
-  ├── L_hydrophobicity_scale.csv
+  ├── L_hydrophobicity_scale.csv [4]
+  ├── K_hydrophobicity_scale.csv [5]
+  ├── H_hydrophobicity_scale.csv [6]
+  ├── E_hydrophobicity_scale.csv [7]
+  ├── R_hydrophobicity_scale.csv [8]
+  └── W_hydrophobicity_scale.csv [9]
 ```
 
 ### CIRNet training with the original data
@@ -122,25 +127,23 @@ Study the effect of each one of the new hydropathy scales downloaded from Github
 
 #### III TASK
 For each scale:
-1. Define an appropriate hydropaty complementarity formula.
+1. Starting from the L_hydrophobicity_scale, hydropathy complementarity can be defined as in the Figure:
+<img src="https://github.com/gretagrassmann/The-role-of-hydropathy-in-the-prediction-of-core-interacting-residues/blob/main/Figures/Figure2.png" width="700">
+
+Define an appropriate hydropaty complementarity formula for the other hydropathy scales.
 > :wink: **Tip**: Residues with similar hydropathy values (both high or low) have stronger interactions compared to those between residues with opposing hydropathy characteristics.
 
-Starting from the L_hydrophobicity_scale, hydropathy complementarity can be defined as in the Figure:
+2. Write new hr.txt files using these new values. Use the residues names contained in the dataset.txt file.
 
-
-
-2. Train CIRNet on the provided dataset using the new hydropathy values and test it on the ‘Test dataset’.
+3. Train CIRNet on the provided dataset using the new hydropathy values and test it on the test dataset.
 
 #### IV TASK
 Starting from the saved NN for each scale:
 1. Plot the distributions of the NN prediction for true interacting and non interacting residues. Find the optimal threshold for the NN classification starting from these distributions.
-2. How does the accuracy on the ‘Test dataset’ vary for different residues pairs type?
+2. How does the accuracy on the test dataset vary for different residues pairs type? You can consider only A_n and B_n
 
 #### V TASK
 Compare the results obtained for all the proposed hydropathy scales.
-Look not only at the precision in the classification but also on the interplay between the different features (shape, electrostatic, and hydropathy complementarity).
-
-> :wink: **Tip**: There are many libraries on Python to analyze the information space learned by a NN, such as PCA and MI score.
 
 #### VI TASK
 Try to improve the accuracy of CIRNet. You can either modify the NN structure or add more specific thresholds to the NN prediction.
@@ -150,9 +153,22 @@ Try to improve the accuracy of CIRNet. You can either modify the NN structure or
 ## Bibliography
 [1] G. Grassmann, et al. ‘Compact assessment of molecular surface complementarities enhances neural network-aided prediction of key binding residues’. arXiv preprint:2407.20992. 2024.
 
-[2] E. Milanetti, et al. ‘2D Zernike polynomial expansion: Finding the protein-protein binding regions.’  Computational and structural biotechnology journal, 19, 29-36. 2021
+[2] E. Milanetti, et al. ‘2D Zernike polynomial expansion: Finding the protein-protein binding regions.’  Computational and structural biotechnology journal, 19, 29-36. 2021.
 
 [3] G. Grassmann, et al. ‘Electrostatic complementarity at the interface drives transient protein-protein interactions’. Scientific reports, 13(1), 10207. 2023.
 
 [4] L. Di Rienzo, et al. ‘Characterizing hydropathy of amino acid side chain in a protein environment by investigating the structural changes of water molecules network.’ Frontiers in molecular biosciences 8: 626837. 2021.
+
+[5] J. Kyte, et al. ‘A simple method for displaying the hydropathic character of a protein.‘ Journal of molecular biology 157.1: 105-132. 1982.
+
+[6] T. P. Hopp, et al. ‘Prediction of protein antigenic determinants from amino acid sequences‘. Proceedings of the National Academy of Sciences, 78(6), 3824–3828. 1981.
+
+[7] Eisenberg, D., et al. ‘Hydrophobic moments and protein structure‘. Faraday Symposia of the Chemical Society, 17, 109–120. 1984.
+
+[8] M. A. Roseman. ‘Hydrophilicity of polar amino acid side-chains is markedly reduced by flanking peptide bonds‘. Journal of Molecular Biology, 200(4), 513–522. 1988.
+
+[9] W. C. Wimley, et al. ‘Experimentally determined hydrophobicity scale for proteins at membrane interfaces‘. Nature Structural Biology, 3(10), 842–848. 1996.
+
+
+
 
