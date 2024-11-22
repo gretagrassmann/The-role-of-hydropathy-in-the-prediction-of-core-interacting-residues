@@ -11,10 +11,7 @@
   * [Project steps](#project-steps)
     + [Data download](#data-download)
     + [CIRNet training with the original data](#cirnet-training-with-the-original-data)
-       - [Data preprocessing](#data-preprocessing)
-       - [CIRNet training](#cirnet-training)
     + [CIRNet evaluation with the original data](#cirnet-evaluation-with-the-original-data)
-       - [Data preprocessing](#data-preprocessing)
        - [I TASK](#i-task)
        - [II TASK](#ii-task)
     + [Effect of new hydropathy scales](#effect-of-new-hydropathy-scales)
@@ -41,44 +38,82 @@ Figure 1 shows CIRNet architecture.
 <img src="https://github.com/gretagrassmann/The-role-of-hydropathy-in-the-prediction-of-core-interacting-residues/blob/main/Figures/Figure1.png" width="700">
 
 
-In this project you will use CIRNet to identify core interacting residues from a dataset of 905 protein dimers and analyse how different hydropathy scale influence its performance.
+In this project you will use CIRNet to identify core interacting residues from a dataset of protein dimers and analyse how different hydropathy scale influence its performance.
 
 
 ## Project steps
 
 ### Data download
-Download the directories from Github:
-* CODES: all the starting python codes.
- ```
-CODES
- ├── data_prep.py -> 
- ├── data_prep.py ->
- └── data_prep.py ->
-```
-* DATASET: training and testing data.
-* HYDROPATHY: Original and new hydropathy scales
+Download the directories: </div>
 
+**CODES**: all the starting python codes.
+ ```
+codes
+ └──cnn.py -> CIRNet architecture
+```
+</div>
+
+ **DATASET**: training and testing data.
+ ```
+dataset
+ ├── train
+       ├── classification.txt -> True classification of the residue pair as core interacting (1) or not (0)
+       ├── dataset.txt -> True classification, name of the complex, residue on the first protein (A_n), residue on the second protein (B_n)
+       ├── shape.txt -> Shape complementarity between A_n and B_n and between A_n and the nine neighbors of B_n (B_n,B_n_1,...,B_n_10)
+       ├── el.txt -> Electrostatic complementarity between A_n and B_n and between A_n and the nine neighbors of B_n
+       ├── hr.txt ->  Hydropathy complementarity (defined according to the L_hydrophobicity_scale)  between A_n and B_n and between A_n and the nine neighbors of B_n
+       └── dist.txt -> Distance of B_n,B_n_1,...,B_n_10 from B_n
+ └── test
+       ├── classification.txt 
+       ├── dataset.txt
+       ├── shape.txt 
+       ├── el.txt
+       ├── hr.txt
+       └── dist.txt
+```
+</div>
+
+**HYDROPATHY**: Original and new hydropathy scales
+```
+hydropathy
+  ├── L_hydrophobicity_scale.csv
+```
 
 ### CIRNet training with the original data
-Train CIRNet on the provided dataset using the L_hydrophobicity_scale.
-#### Data preprocessing
-Starting from the results.csv file, produce the input for CIRNet using the data_prep.py code.
-CIRNet receives as input, for each residue pair, a 10x4 matrix that represents the normalized complementarity of the shape, electrostatic, and hydropathy complementarity between the first residue and the second amino acid, as well as between the first residue and the first nine nieghbors of the second one. Figure out what each column in results.csv represents.
-#### CIRNet training           
-Use cnn.py to train CIRNet on the original dataset. Save the trained network.
+    
+Use cnn.py to train CIRNet on the original dataset **(based on the L_hydrophobicity_scale)**. Save the trained network.
 
 ### CIRNet evaluation with the original data
-Evaluate CIRNet performance on the ‘Test dataset’ (905 complexes) using the L_hydrophobicity_scale.
-#### Data preprocessing
-Starting from the test_results.csv file, produce the input for CIRNet using the data_prep.py code.
-           
+Evaluate CIRNet performance on the test dataset **(based on the L_hydrophobicity_scale)**. 
+</div>
+
+Load the test dataset with the function you can find in cnn.py
+```
+test_data, classification_test_data = load_full_dataset(test_data_path)
+```
+Test the saved NN
+```
+nn_model = tf.keras.models.load_model('YOUR_PATH/my_model.keras')
+nn_prediction = nn_model.predict(test_data)
+```
+
 #### I TASK
 Plot the distributions of the NN prediction for true interacting and non interacting residues. 
 Find the optimal threshold for the NN classification starting from these distributions.
            
 #### II TASK
-How does the accuracy on the ‘Test dataset’ vary for different residues pairs type? </div>
-Residue can be classified according to their chemical nature in Polar (P), Hydrophobic (H), and Charged (C). The chemical composition of the interfaces is reflected in the hydropathy complementarity values between core interacting residue pairs (PP, HH, CC, PH, PC, HC). 
+How does the accuracy on the Test dataset vary for different residues pairs type? You can find the residues names in the file dataset.txt. 
+</div>
+
+Residue can be classified according to their chemical nature in Polar (P), Hydrophobic (H), and Charged (C).</div> 
+
+H = ['GLY', 'ALA', 'VAL', 'LEU', 'ILE','MET','PHE', 'TYR', 'TRP'] </div> 
+
+P = ['SER', 'PRO','THR','CYS','ASN', 'GLN'] </div> 
+
+C = ['HIS', 'LYS','ARG','ASP','GLU'] </div> 
+
+The chemical composition of the interfaces is reflected in the hydropathy complementarity values between core interacting residue pairs (PP, HH, CC, PH, PC, HC). 
 
 > :wink: **Tip**: To evaluate the accuracy you can compute the ROC AUC between the distributions of true and false cases.
 
@@ -88,9 +123,13 @@ Study the effect of each one of the new hydropathy scales downloaded from Github
 #### III TASK
 For each scale:
 1. Define an appropriate hydropaty complementarity formula.
-> :wink: **Tip**: Remember that residues with similar hydropathy values (both high or low) have stronger interactions compared to those between residues with opposing hydropathy characteristics.
-2. Modify data_prep.py to obtain a new hr.txt file with new indices of hydropathy complementarity.
-3. Train CIRNet on the provided dataset using the new hydropathy values and test it on the ‘Test dataset’.
+> :wink: **Tip**: Residues with similar hydropathy values (both high or low) have stronger interactions compared to those between residues with opposing hydropathy characteristics.
+
+Starting from the L_hydrophobicity_scale, hydropathy complementarity can be defined as in the Figure:
+
+
+
+2. Train CIRNet on the provided dataset using the new hydropathy values and test it on the ‘Test dataset’.
 
 #### IV TASK
 Starting from the saved NN for each scale:
