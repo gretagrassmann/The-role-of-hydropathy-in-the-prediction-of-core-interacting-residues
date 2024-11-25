@@ -78,10 +78,9 @@ dataset
 hydropathy
   ├── L_hydrophobicity_scale.csv [4]
   ├── K_hydrophobicity_scale.csv [5]
-  ├── H_hydrophobicity_scale.csv [6]
+  ├── H_hydrophilicity_scale.csv [6]
   ├── E_hydrophobicity_scale.csv [7]
-  ├── R_hydrophobicity_scale.csv [8]
-  └── W_hydrophobicity_scale.csv [9]
+  └── R_hydrophobicity_scale.csv [8]
 ```
 
 ### CIRNet training with the original data
@@ -166,9 +165,6 @@ Try to improve the accuracy of CIRNet. You can either modify the NN structure or
 [7] Eisenberg, D., et al. ‘Hydrophobic moments and protein structure‘. Faraday Symposia of the Chemical Society, 17, 109–120. 1984.
 
 [8] M. A. Roseman. ‘Hydrophilicity of polar amino acid side-chains is markedly reduced by flanking peptide bonds‘. Journal of Molecular Biology, 200(4), 513–522. 1988.
-
-[9] W. C. Wimley, et al. ‘Experimentally determined hydrophobicity scale for proteins at membrane interfaces‘. Nature Structural Biology, 3(10), 842–848. 1996.
-
 
 
 
